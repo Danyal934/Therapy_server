@@ -1,0 +1,18 @@
+Options +SymLinksIfOwnerMatch
+RewriteEngine On
+
+# Allow Installatron requests
+RewriteCond %{REQUEST_FILENAME} deleteme\.\w+\.php
+RewriteRule (.*) - [L] 
+
+# ✅ Allow direct access to storage (public files)
+RewriteCond %{REQUEST_URI} ^/storage
+RewriteRule ^ - [L]
+
+# ✅ If request is a real file or directory, serve it directly
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+RewriteRule ^ index.php [L]

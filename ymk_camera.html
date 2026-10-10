@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Skin Analysis Camera</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f7f8fa;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    #ymk-container {
+      margin-top: 20px;
+      width: 360px;
+      height: 480px;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+    #snapshot {
+      margin-top: 20px;
+      max-width: 360px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    #errorMsg {
+      margin-top: 15px;
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h2>AI Skin Analysis Camera</h2>
+<div id="ymk-container"></div>
+
+<!-- Buttons -->
+<button id="startCameraBtn">Start Camera</button>
+<button id="captureBtn" disabled>Capture & Analyze</button>
+
+<img id="snapshot" alt="Captured Image"/>
+<div id="errorMsg"></div>
+
+<script>
+  let faceOk = false;
+
+  // SDK initialization (must be defined before SDK script loads)
+  window.ymkAsyncInit = function () {
+    console.log("ymkAsyncInit called");
+
+    YMK.init({ width: 360, height: 480, language: "enu", container: "ymk-container" });
+
+    YMK.addEventListener("opened", () => console.log("SDK UI opened"));
+    YMK.addEventListener("cameraOpened", () => console.log("Camera opened"));
+    YMK.addEventListener("cameraFailed", (error) => {
+      console.error("cameraFailed:", error);
+      document.getElementById("errorMsg").textContent =
+        "Camera failed to start. Please check permissions and device.";
+    });
+
+    YMK.addEventListener("faceQualityChanged", function (quality) {
+      console.log("Face Quality:", quality);
+      const captureBtn = document.getElementById("captureBtn");
+      if (
+        quality.hasFace &&
+        quality.area === "good" &&
+        quality.frontal === "good" &&
+        (quality.lighting === "good" || quality.lighting === "ok")
+      ) {
+        faceOk = true;
+        captureBtn.disabled = false;
+      } else {
+        faceOk = false;
+        captureBtn.disabled = true;
+      }
+    });
+
+    YMK.addEventListener("skinAnalysisDetectionCaptured", function (image) {
+      document.getElementById("snapshot").src = image;
+    });
+  };
+
+  // Request camera permission first
+  async function requestCameraPermission() {
+    try {
+      console.log("Requesting camera permission...");
+      await navigator.mediaDevices.getUserMedia({ video: true });
+      console.log("Camera permission granted");
+    } catch (err) {
+      console.error("Permission denied:", err);
+      document.getElementById("errorMsg").textContent =
+        "Camera permission denied. Please allow access and refresh the page.";
+    }
+  }
+
+  requestCameraPermission();
+
+  // Start camera button
+  document.getElementById("startCameraBtn").addEventListener("click", function () {
+    if (window.YMK && YMK.openSkincareCamera) {
+      YMK.openSkincareCamera();
+    } else {
+      alert("SDK not ready yet, please try again in a moment.");
+    }
+  });
+
+  // Capture button
+  document.getElementById("captureBtn").addEventListener("click", function () {
+    if (faceOk) {
+      YMK.capture();
+    } else {
+      alert("Please adjust your face (distance, lighting, angle).");
+    }
+  });
+</script>
+
+<!-- YMK SDK -->
+<script src="https://plugins-media.makeupar.com/v1.0-skincare-camera-kit/sdk.js"></script>
+
+</body>
+</html>

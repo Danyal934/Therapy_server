@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Account Deletion – LCI Wellbeing Journal</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.8;
+      margin: 0;
+      padding: 0;
+      background: #f9f9fb;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.2em;
+    }
+    header p {
+      margin-top: 10px;
+      font-size: 1.1em;
+    }
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    section {
+      background: white;
+      padding: 25px;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    section h2 {
+      color: #0077b6;
+      margin-top: 0;
+      font-size: 1.4em;
+      border-left: 4px solid #00b4d8;
+      padding-left: 10px;
+    }
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: 600;
+    }
+    input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #005f87;
+    }
+    .confirmation {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background: #e6ffed;
+      color: #2d7a46;
+      border: 1px solid #b2f5ca;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #f1f1f1;
+      font-size: 0.9em;
+      color: #666;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Account Deletion Request</h1>
+    <p>LCI Wellbeing Journal</p>
+  </header>
+
+  <main>
+    <section>
+      <p>If you would like to permanently delete your account and all associated data from the <strong>LCI Wellbeing Journal</strong> app, please submit your request below.</p>
+      
+      <form id="deleteForm">
+        <label for="email">Enter your registered email address:</label>
+        <input type="email" id="email" name="email" required placeholder="your@email.com" />
+        <button type="submit">Submit Request</button>
+      </form>
+
+      <div id="confirmation" class="confirmation">
+        ✅ We have received your request to delete your account. Our team will process it within 7 working days.
+      </div>
+    </section>
+
+    <section>
+      <h2>What Happens After Deletion?</h2>
+      <ul>
+        <li>Your journal entries and personal data will be permanently erased from our systems.</li>
+        <li>You will no longer be able to access your account.</li>
+        <li>This action is <strong>irreversible</strong>.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Need Help?</h2>
+      <p>If you face issues with this form, you can also request deletion by emailing us at: 
+        <a href="mailto:Lcicounsellingandwellbeing@gmail.com">Lcicounsellingandwellbeing@gmail.com</a>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 LCI Wellbeing Journal. All rights reserved.
+  </footer>
+
+  <script>
+    const form = document.getElementById('deleteForm');
+    const confirmation = document.getElementById('confirmation');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // prevent page reload
+      form.style.display = 'none';
+      confirmation.style.display = 'block';
+    });
+  </script>
+
+</body>
+</html>
